@@ -1,0 +1,27 @@
+[core]
+  editor = vim
+  autocrlf = input
+
+[push]
+  autoSetupRemote = true
+
+[pull]
+  rebase = true
+
+[color]
+  ui = auto
+
+[includeIf "gitdir:~/projects/github/"]
+  path = ~/.config/git/config_github
+
+[includeIf "gitdir:~/dotfiles/"]
+  path = ~/.config/git/config_github
+
+[includeIf "gitdir:~/.local/share/chezmoi/"]
+  path = ~/.config/git/config_github
+
+[includeIf "gitdir:~/projects/poa/"]
+  path = ~/.config/git/config_poa
+
+[init]
+  defaultBranch = main
