@@ -10,4 +10,24 @@ return {
       })
     end,
   },
+  {
+    "mason-org/mason.nvim",
+    opts = {
+      ensure_installed = {
+        "bash-language-server",
+        "shellcheck",
+        "shfmt",
+      },
+    },
+  },
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        bashls = {
+          filetypes = { "sh", "bash", "zsh" },
+        },
+      },
+    },
+  },
 }
