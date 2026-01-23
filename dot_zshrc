@@ -1,9 +1,12 @@
+# shellcheck shell=bash
+# shellcheck source=/dev/null
+
 # Set the directory we want to store zinit and plugins
 ZINIT_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/zinit/zinit.git"
 
 # Download zinit if it's not already present
-if [ ! -d $ZINIT_HOME ]; then
-  mkdir -p "$(dirname $ZINIT_HOME)"
+if [ ! -d "$ZINIT_HOME" ]; then
+  mkdir -p "$(dirname "$ZINIT_HOME")"
   git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 fi
 
@@ -53,10 +56,11 @@ bindkey '^n' history-search-forward
 bindkey -s '^L' 'clear^M'
 
 # History
-HISTSIZE=5000
-HISTFILE=~/.zsh_history
-SAVEHIST=$HISTSIZE
-HISTDUP=erase
+export HIST_STAMPS="dd.mm.yyyy"
+export HISTSIZE=5000
+export HISTFILE=~/.zsh_history
+export SAVEHIST=$HISTSIZE
+export HISTDUP=erase
 setopt appendhistory
 setopt sharehistory
 setopt hist_ignore_space
@@ -68,9 +72,11 @@ setopt hist_find_no_dups
 # Completion styling
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*:descriptions' format '[%d]'
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# shellcheck disable=SC2296
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --icons --color=always $realpath'
+# shellcheck disable=SC2154
+zstyle ':fzf-tab:complete:cd:*' fzf-preview "eza -1 --icons --color=always $realpath"
 
 # aliases
 alias kns="kubens"
@@ -103,7 +109,8 @@ export TERM=xterm-256color
 export K9S_CONFIG_DIR=~/.config/k9s
 
 if [[ $(uname) == "Linux" ]]; then
-  export HOSTNAME=$(hostname)
-  keychain -q $HOME/.ssh/gitlab $HOME/.ssh/github
-  source $HOME/.keychain/$HOSTNAME-sh
+  HOSTNAME=$(hostname)
+  export HOSTNAME
+  keychain -q "$HOME/.ssh/gitlab" "$HOME/.ssh/github"
+  source "$HOME/.keychain/$HOSTNAME-sh"
 fi
