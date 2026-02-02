@@ -84,23 +84,22 @@ alias kctx="kubectx"
 alias cd="z"
 alias y="yazi"
 alias v="nvim"
-alias dotfiles="cd ~/dotfiles && git pull"
 
 # Set the prompt
-if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
+if [[ "$TERM_PROGRAM" != "Apple_Terminal" ]]; then
   eval "$(oh-my-posh init zsh --config ~/.config/ohmyposh.toml)"
 fi
 
 # Load custom scripts and configurations
-if [ -f ~/.zsh_aliases ]; then
+if [[ -f ~/.zsh_aliases ]]; then
   source ~/.zsh_aliases
 fi
 
-if [ -f ~/.zsh_secrets ]; then
+if [[ -f ~/.zsh_secrets ]]; then
   source ~/.zsh_secrets
 fi
 
-if [ -f ~/scripts/vo_functions.sh ]; then
+if [[ -f ~/scripts/vo_functions.sh ]]; then
   source ~/scripts/vo_functions.sh
 fi
 
@@ -108,7 +107,7 @@ fi
 export TERM=xterm-256color
 export K9S_CONFIG_DIR=~/.config/k9s
 
-if [[ $(uname) == "Linux" ]]; then
+if [[ $(uname) == "Linux" && -f "$HOME/.ssh/gitlab" && -f "$HOME/.ssh/github" ]]; then
   HOSTNAME=$(hostname)
   export HOSTNAME
   keychain -q "$HOME/.ssh/gitlab" "$HOME/.ssh/github"
