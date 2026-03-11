@@ -108,9 +108,9 @@ export TERM=xterm-256color
 export K9S_CONFIG_DIR=~/.config/k9s
 export EDITOR=nvim
 
-if [[ $(uname) == "Linux" && -f "$HOME/.ssh/gitlab" && -f "$HOME/.ssh/github" ]]; then
+if [[ $(uname) == "Linux" && -f "$HOME/.ssh/poa" && -f "$HOME/.ssh/github" ]]; then
   HOSTNAME=$(hostname)
   export HOSTNAME
-  keychain -q "$HOME/.ssh/gitlab" "$HOME/.ssh/github"
+  keychain -q "$HOME/.ssh/poa" "$HOME/.ssh/github"
   source "$HOME/.keychain/$HOSTNAME-sh"
 fi
