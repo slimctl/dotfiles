@@ -14,9 +14,6 @@
 [includeIf "gitdir:~/projects/github/"]
   path = ~/.config/git/config_github
 
-[includeIf "gitdir:~/dotfiles/"]
-  path = ~/.config/git/config_github
-
 [includeIf "gitdir:~/.local/share/chezmoi/"]
   path = ~/.config/git/config_github
 
