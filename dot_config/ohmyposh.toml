@@ -45,7 +45,8 @@ newline = true
 [[blocks.segments]]
 type = 'os'
 style = 'plain'
-foreground = "p:text"
+foreground = 'p:text'
+template = ' {{ .Icon }} '
 
 # [[blocks.segments]]
 # type = "text"
