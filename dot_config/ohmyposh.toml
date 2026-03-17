@@ -52,7 +52,7 @@ template = ' {{ .Icon }} '
 type = "text"
 style = "plain"
 foreground = "p:teal"
-template = "{{ if .WSL }}{{ .HostName }} {{ end }}"
+template = "{{ if .WSL }}wsl {{ end }}"
 
 [[blocks.segments]]
 type = 'path'
@@ -67,10 +67,9 @@ style = 'full'
 [[blocks.segments]]
 type = 'git'
 style = 'plain'
-foreground = 'p:mauve'
+foreground = 'p:peach'
 background = 'transparent'
-# template = ' {{ .UpstreamIcon }}{{ .HEAD }}{{ if or (.Working.Changed) (.Staging.Changed) }}*{{ end }} <p:teal>{{ if gt .Behind 0 }}↓{{ end }}{{ if gt .Ahead 0 }}↑{{ end }}</p:teal>'
-template = " {{ .UpstreamIcon }} {{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }}"
+template = " {{ .UpstreamIcon }} {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }}"
 
 [blocks.segments.properties]
 branch_icon = ''
