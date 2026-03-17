@@ -4,7 +4,7 @@ final_space = true
 enable_cursor_positioning = true
 
 [upgrade]
-notice = false 
+notice = false
 interval = "168h"
 auto = false
 source = "cdn"
@@ -48,11 +48,11 @@ style = 'plain'
 foreground = 'p:text'
 template = ' {{ .Icon }} '
 
-# [[blocks.segments]]
-# type = "text"
-# style = "plain"
-# foreground = "p:teal"
-# template = "{{ .HostName }} "
+[[blocks.segments]]
+type = "text"
+style = "plain"
+foreground = "p:teal"
+template = "{{ if .WSL }}{{ .HostName }} {{ end }}"
 
 [[blocks.segments]]
 type = 'path'
