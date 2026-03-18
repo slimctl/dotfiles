@@ -85,6 +85,7 @@ alias cd="z"
 alias y="yazi"
 alias v="nvim"
 alias fabric='fabric-ai'
+alias lg="lazygit"
 
 # Set the prompt
 if [[ "$TERM_PROGRAM" != "Apple_Terminal" ]]; then
