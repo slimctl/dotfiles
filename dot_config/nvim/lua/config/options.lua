@@ -10,5 +10,5 @@ if os.getenv("SSH_TTY") then
     osc52.copy("*")(content)
   end
 
-  vim.api.nvim_create_autocmd("TextYankPost", { callback = sync_clipboard() })
+  vim.api.nvim_create_autocmd("TextYankPost", { callback = sync_clipboard })
 end
