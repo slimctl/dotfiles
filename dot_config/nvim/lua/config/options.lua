@@ -1,5 +1,3 @@
-vim.o.clipboard = "unnamedplus"
-
 -- use osc52 over ssh sessions
 if os.getenv("SSH_TTY") then
   local osc52 = require("vim.ui.clipboard.osc52")
@@ -11,4 +9,6 @@ if os.getenv("SSH_TTY") then
   end
 
   vim.api.nvim_create_autocmd("TextYankPost", { callback = sync_clipboard })
+else
+  vim.o.clipboard = "unnamedplus"
 end
