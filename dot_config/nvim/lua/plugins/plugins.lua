@@ -1,33 +1,46 @@
 return {
   {
     "norcalli/nvim-colorizer.lua",
-    event = "BufReadPre", -- optional: lazy-load on buffer read
+    event = "BufReadPre",
     config = function()
       require("colorizer").setup({
-        "*", -- highlight all files
+        "*",
       }, {
-        mode = "background", -- show colors as background
+        mode = "background",
       })
     end,
   },
   {
-    "mason-org/mason.nvim",
+    "Glench/Vim-Jinja2-Syntax",
+    ft = { "jinja", "jinja2", "htmldjango" },
+  },
+  {
+    "folke/lazydev.nvim",
+    ft = "lua",
     opts = {
-      ensure_installed = {
-        "bash-language-server",
-        "shellcheck",
-        "shfmt",
+      library = {
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+        { path = "LazyVim", words = { "LazyVim" } },
+        { path = "lazy.nvim", words = { "LazyVim" } },
       },
     },
   },
   {
-    "neovim/nvim-lspconfig",
-    opts = {
-      servers = {
-        bashls = {
-          filetypes = { "sh", "bash", "zsh" },
+    "LazyVim",
+    opts = function()
+      vim.filetype.add({
+        extension = {
+          j2 = "jinja2",
+          jinja = "jinja2",
+          jinja2 = "jinja2",
+          ["ini.j2"] = "jinja2",
+          ["yaml.j2"] = "jinja2",
+          ["yml.j2"] = "jinja2",
+          ["toml.j2"] = "jinja2",
+          ["json.j2"] = "jinja2",
+          ["cfg.j2"] = "jinja2",
         },
-      },
-    },
+      })
+    end,
   },
 }
