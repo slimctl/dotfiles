@@ -11,17 +11,12 @@
 [color]
   ui = auto
 
-[includeIf "gitdir:~/projects/github/"]
-  path = ~/.config/git/config_github
+[init]
+  defaultBranch = main
 
-[includeIf "gitdir:~/.local/share/chezmoi/"]
+[includeIf "hasconfig:remote.*.url:*github.com*/**"]
   path = ~/.config/git/config_github
 
 [includeIf "gitdir:~/projects/poa/"]
   path = ~/.config/git/config_poa
 
-[init]
-  defaultBranch = main
-[user]
-	name = slimctl
-	email = 7897182+slimctl@users.noreply.github.com
