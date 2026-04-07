@@ -1,0 +1,68 @@
+[packages.common]
+brew = [
+  "autoenv",
+  "bat",
+  "bitwarden-cli",
+  "btop",
+  "chezmoi",
+  "commitizen",
+  "eza",
+  "fd",
+  "fzf",
+  "gcc",
+  "git",
+  "git-crypt",
+  "imagemagick",
+  "lazygit",
+  "mise",
+  "neovim",
+  "oh-my-posh",
+  "ripgrep",
+  "tmux",
+  "tree-sitter-cli",
+  "yazi",
+  "yq",
+  "zoxide",
+  "zsh",
+]
+
+[packages.ai]
+brew = ["claude-code", "opencode"]
+
+[packages.k8s]
+brew = [
+  "argocd",
+  "cilium-cli",
+  "helm",
+  "k9s",
+  "kubectx",
+  "kubelogin",
+  "kubernetes-cli",
+  "kyverno",
+]
+
+[packages.iac]
+brew = ["ansible", "terraform", "vault-cli"]
+
+[package.cloud]
+brew = ["oci-cli"]
+
+[packages.darwin]
+brew = [""]
+casks = [
+  "brave-browser",
+  "calibre",
+  "discord",
+  "firefox",
+  "font-jetbrains-mono-nerd-font",
+  "ghostty",
+  "keka",
+  "obsidian",
+  "raycast",
+  "signal",
+  "synology-drive",
+  "unnaturalscrollwheels",
+]
+
+[packages.linux]
+brew = ["keychain", "xclip"]

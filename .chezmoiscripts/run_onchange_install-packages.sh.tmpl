@@ -1,0 +1,30 @@
+{{- $brewPackages := .packages.common.brew -}}
+{{- $casks := list -}}
+
+{{- if eq .chezmoi.os "darwin" -}}
+    {{- $brewPackages = concat $brewPackages .packages.darwin.brew -}}
+    {{- $casks = .packages.darwin.casks -}}
+{{- else if eq .chezmoi.os "linux" -}}
+    {{- $brewPackages = concat $brewPackages .packages.linux.brew -}}
+{{- end -}}
+
+{{- range .packageGroups -}}
+    {{- with index $.packages . -}}
+        {{- with .brew -}}
+            {{- $brewPackages = concat $brewPackages . -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+#!/bin/bash
+set -euo pipefail
+
+brew bundle --cleanup --file=/dev/stdin <<EOF
+{{ range $brewPackages -}}
+brew {{ . | quote }}
+{{ end -}}
+{{ range $casks -}}
+cask {{ . | quote }}
+{{ end -}}
+EOF
+
