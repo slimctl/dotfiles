@@ -48,20 +48,29 @@ brew = ["ansible", "terraform", "vault-cli"]
 brew = ["oci-cli"]
 
 [packages.darwin]
-brew = [""]
+brew = ["borders"]
+tap = [""]
 casks = [
+  "aerospace",
+  "betterdisplay",
   "brave-browser",
   "calibre",
   "discord",
   "firefox",
   "font-jetbrains-mono-nerd-font",
   "ghostty",
+  "kap",
   "keka",
   "obsidian",
+  "proton-mail",
+  "protonvpn",
   "raycast",
   "signal",
+  "slack",
+  "steam",
   "synology-drive",
   "unnaturalscrollwheels",
+  "vlc",
 ]
 
 [packages.linux]
