@@ -1,5 +1,6 @@
 [packages.common]
 brew = [
+  "age",
   "autoenv",
   "bat",
   "bitwarden-cli",
@@ -11,7 +12,6 @@ brew = [
   "fzf",
   "gcc",
   "git",
-  "git-crypt",
   "imagemagick",
   "lazygit",
   "mise",
@@ -27,7 +27,7 @@ brew = [
 ]
 
 [packages.ai]
-brew = ["claude-code", "opencode"]
+brew = ["fabric-ai", "opencode"]
 
 [packages.k8s]
 brew = [
@@ -40,6 +40,9 @@ brew = [
   "kubernetes-cli",
   "kyverno",
 ]
+
+[packages.containers]
+brew = ["podman", "podman-tui", "lima"]
 
 [packages.iac]
 brew = ["ansible", "terraform", "vault-cli"]
@@ -61,9 +64,12 @@ casks = [
   "ghostty",
   "kap",
   "keka",
+  "microsoft-outlook",
+  "microsoft-teams",
   "obsidian",
   "proton-mail",
   "protonvpn",
+  "qbittorrent",
   "raycast",
   "signal",
   "slack",
