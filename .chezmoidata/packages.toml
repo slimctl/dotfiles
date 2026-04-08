@@ -60,6 +60,7 @@ casks = [
   "calibre",
   "discord",
   "firefox",
+  "firefox@developer-edition",
   "font-jetbrains-mono-nerd-font",
   "ghostty",
   "kap",
