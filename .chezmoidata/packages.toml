@@ -26,6 +26,9 @@ brew = [
   "zsh",
 ]
 
+[packages.dev]
+brew = ["uv"]
+
 [packages.ai]
 brew = ["fabric-ai", "opencode"]
 

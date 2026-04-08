@@ -9,7 +9,7 @@ recipients = [
 [edit]
 command = "nvim"
 
-{{- $packageGroupChoices := list "ai" "k8s" "iac" "cloud" }}
+{{- $packageGroupChoices := list "ai" "k8s" "iac" "cloud" "dev" "containers" }}
 {{- $packageGroups := promptMultichoice "What package groups do you want to install" $packageGroupChoices }}
 [data]
 packageGroups = {{ $packageGroups | toToml }}
