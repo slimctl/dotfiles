@@ -51,8 +51,8 @@ brew = [
 brew = ["lima", "podman", "podman-tui"]
 
 [packages.iac]
-brew = ["ansible", "hashicorp/tap/vault", "terraform"]
-tap = ["hashicorp/tap"]
+brew = ["ansible", "terraform"]
+tap = []
 
 [packages.cloud]
 brew = ["oci-cli"]
