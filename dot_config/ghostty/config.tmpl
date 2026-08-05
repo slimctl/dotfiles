@@ -1,0 +1,19 @@
+theme = catppuccin-mocha.conf
+
+font-family = JetBrainsMono Nerd Font Mono
+{{- $fontSize := 16 }}
+{{- if eq .chezmoi.os "darwin" }}
+{{- range (output "system_profiler" "SPDisplaysDataType" "-json" | fromJson).SPDisplaysDataType }}
+{{- if hasKey . "spdisplays_ndrvs" }}
+{{- range .spdisplays_ndrvs }}
+{{- if and (hasKey . "_name") (contains "Studio Display" ._name) }}
+{{- $fontSize = 18 }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
+font-size = {{ $fontSize }}
+
+clipboard-read = allow
+clipboard-write = allow

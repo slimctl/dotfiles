@@ -1,30 +1,67 @@
-{{- $brewPackages := .packages.common.brew -}}
-{{- $casks := list -}}
-
+{{- $sources := list .packages.common -}}
 {{- if eq .chezmoi.os "darwin" -}}
-    {{- $brewPackages = concat $brewPackages .packages.darwin.brew -}}
-    {{- $casks = .packages.darwin.casks -}}
+    {{- $sources = append $sources .packages.darwin -}}
 {{- else if eq .chezmoi.os "linux" -}}
-    {{- $brewPackages = concat $brewPackages .packages.linux.brew -}}
+    {{- $sources = append $sources .packages.linux -}}
+{{- end -}}
+{{- range .packageGroups -}}
+    {{- $sources = append $sources (index $.packages .) -}}
 {{- end -}}
 
-{{- range .packageGroups -}}
-    {{- with index $.packages . -}}
-        {{- with .brew -}}
-            {{- $brewPackages = concat $brewPackages . -}}
-        {{- end -}}
+{{- $brewPackages := list -}}
+{{- $casks := list -}}
+{{- $taps := list -}}
+{{- $masApps := dict -}}
+{{- range $sources -}}
+    {{- if hasKey . "brew" -}}
+        {{- $brewPackages = concat $brewPackages .brew -}}
+    {{- end -}}
+    {{- if hasKey . "tap" -}}
+        {{- $taps = concat $taps .tap -}}
+    {{- end -}}
+    {{- if hasKey . "cask" -}}
+        {{- $casks = concat $casks .cask -}}
+    {{- end -}}
+    {{- /* Mac App Store, so macOS-only regardless of which OS the cask/brew entries above target */ -}}
+    {{- if and (eq $.chezmoi.os "darwin") (hasKey . "mas") -}}
+        {{- $masApps = merge $masApps .mas -}}
     {{- end -}}
 {{- end -}}
 
 #!/bin/bash
 set -euo pipefail
 
-brew bundle --cleanup --file=/dev/stdin <<EOF
+# brew was just installed by the previous script, in a separate process,
+# so it may not be on PATH yet in this one.
+for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew /home/linuxbrew/.linuxbrew/bin/brew; do
+  if [ -x "$brew_bin" ]; then
+    eval "$("$brew_bin" shellenv)"
+    break
+  fi
+done
+
+brewfile="$(mktemp)"
+trap 'rm -f "$brewfile"' EXIT
+cat > "$brewfile" <<'EOF'
+{{ range $taps -}}
+tap {{ . | quote }}, trusted: true
+{{ end -}}
 {{ range $brewPackages -}}
 brew {{ . | quote }}
 {{ end -}}
 {{ range $casks -}}
 cask {{ . | quote }}
 {{ end -}}
+{{ range $name, $id := $masApps -}}
+mas {{ $name | quote }}, id: {{ $id }}
+{{ end -}}
 EOF
 
+echo "📦 Installing packages..."
+brew bundle install --no-upgrade --file="$brewfile"
+
+# brew bundle cleanup resets Homebrew's global trust store to exactly
+# what the Brewfile declares as `trusted: true` above, so trust is
+# declared in the Brewfile itself rather than via separate `brew trust`
+# calls, which cleanup would otherwise wipe out.
+brew bundle cleanup --force --file="$brewfile"

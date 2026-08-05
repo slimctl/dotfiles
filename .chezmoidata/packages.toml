@@ -2,6 +2,7 @@
 brew = [
   "age",
   "autoenv",
+  "autossh",
   "bat",
   "bitwarden-cli",
   "btop",
@@ -25,12 +26,14 @@ brew = [
   "zoxide",
   "zsh",
 ]
+cask = ["font-jetbrains-mono-nerd-font"]
 
 [packages.dev]
 brew = ["uv"]
 
 [packages.ai]
 brew = ["fabric-ai", "opencode"]
+cask = ["claude-code"]
 
 [packages.k8s]
 brew = [
@@ -45,31 +48,32 @@ brew = [
 ]
 
 [packages.containers]
-brew = ["podman", "podman-tui", "lima"]
+brew = ["lima", "podman", "podman-tui"]
 
 [packages.iac]
-brew = ["ansible", "terraform", "vault-cli"]
+brew = ["ansible", "hashicorp/tap/vault", "terraform"]
+tap = ["hashicorp/tap"]
 
-[package.cloud]
+[packages.cloud]
 brew = ["oci-cli"]
 
 [packages.darwin]
-brew = ["borders"]
-tap = [""]
-casks = [
-  "aerospace",
+mas = { Bitwarden = 1352778147, Readest = 6738622779, WindowsApp = 1295203466, SteamLink = 1246969117 }
+brew = ["felixkratz/formulae/borders", "mas", "yt-dlp", "ffmpeg"]
+tap = ["felixkratz/formulae", "nikitabobko/tap"]
+cask = [
   "betterdisplay",
   "brave-browser",
   "calibre",
   "discord",
   "firefox",
   "firefox@developer-edition",
-  "font-jetbrains-mono-nerd-font",
   "ghostty",
-  "kap",
   "keka",
   "microsoft-outlook",
   "microsoft-teams",
+  "moonlight",
+  "nikitabobko/tap/aerospace",
   "obsidian",
   "proton-mail",
   "protonvpn",
