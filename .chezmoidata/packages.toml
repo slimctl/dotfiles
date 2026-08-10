@@ -88,4 +88,4 @@ cask = [
 ]
 
 [packages.linux]
-brew = ["keychain", "xclip"]
+brew = ["keychain"]
