@@ -33,7 +33,7 @@ brew = ["uv"]
 
 [packages.ai]
 brew = ["fabric-ai", "opencode"]
-cask = ["claude-code"]
+cask = ["claude-code", "codex"]
 
 [packages.k8s]
 brew = [
@@ -51,8 +51,8 @@ brew = [
 brew = ["lima", "podman", "podman-tui"]
 
 [packages.iac]
-brew = ["ansible", "terraform"]
-tap = []
+brew = ["ansible", "hashicorp/tap/terraform"]
+tap = ["hashicorp/tap"]
 
 [packages.cloud]
 brew = ["oci-cli"]
