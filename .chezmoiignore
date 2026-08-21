@@ -3,3 +3,4 @@
 .config/aerospace
 .ssh
 {{- end }}
+README.md
