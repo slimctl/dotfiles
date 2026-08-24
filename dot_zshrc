@@ -109,6 +109,7 @@ fi
 export TERM=xterm-256color
 export K9S_CONFIG_DIR=~/.config/k9s
 export EDITOR=nvim
+export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
 
 if [[ $(uname) == "Linux" && -f "$HOME/.ssh/poa" && -f "$HOME/.ssh/github" ]]; then
   HOSTNAME=$(hostname)
@@ -116,3 +117,5 @@ if [[ $(uname) == "Linux" && -f "$HOME/.ssh/poa" && -f "$HOME/.ssh/github" ]]; t
   keychain -q "$HOME/.ssh/poa" "$HOME/.ssh/github"
   source "$HOME/.keychain/$HOSTNAME-sh"
 fi
+
+eval "$(direnv hook zsh)"
