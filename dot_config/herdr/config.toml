@@ -1,0 +1,12 @@
+[ui]
+agent_panel_sort = "spaces"
+tab_bar_right = [
+  { type = "zoom" },
+  { type = "hostname" },
+  { type = "datetime", format = "%H:%M" },
+  { type = "text", text = "prod" },
+]
+tab_bar_right_separator = " · "
+
+[keys]
+prefix = "ctrl+a"
