@@ -1,5 +1,5 @@
 -- use osc52 over ssh sessions
-if os.getenv("SSH_TTY") then
+if os.getenv("SSH_TTY") or (not os.getenv("DISPLAY") and not os.getenv("WAYLAND_DISPLAY")) then
   local osc52 = require("vim.ui.clipboard.osc52")
 
   local function sync_clipboard()
@@ -12,3 +12,7 @@ if os.getenv("SSH_TTY") then
 else
   vim.o.clipboard = "unnamedplus"
 end
+
+-- python
+vim.g.lazyvim_python_lsp = "pyright"
+vim.g.lazyvim_python_ruff = "ruff"
