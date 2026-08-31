@@ -56,10 +56,15 @@ fi
 zinit cdreplay -q
 
 # Keybindings
+# Drop "/" from word chars so path segments count as separate words for word-wise movement/deletion
+WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 bindkey -e
 bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
 bindkey -s '^L' 'clear^M'
+
+# Allow "#" comments in the interactive shell
+setopt interactive_comments
 
 # History
 export HIST_STAMPS="dd.mm.yyyy"
@@ -81,6 +86,14 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
 # shellcheck disable=SC2154
 zstyle ':fzf-tab:complete:cd:*' fzf-preview "eza -1 --icons --color=always $realpath"
+
+# fzf colors (Catppuccin Mocha, matching delta/yazi/k9s)
+export FZF_DEFAULT_OPTS=" \
+--color=bg+:#313244,bg:#1E1E2E,spinner:#F5E0DC,hl:#F38BA8 \
+--color=fg:#CDD6F4,header:#F38BA8,info:#CBA6F7,pointer:#F5E0DC \
+--color=marker:#B4BEFE,fg+:#CDD6F4,prompt:#CBA6F7,hl+:#F38BA8 \
+--color=selected-bg:#45475A \
+--color=border:#6C7086,label:#CDD6F4"
 
 # aliases
 alias kns="kubens"
