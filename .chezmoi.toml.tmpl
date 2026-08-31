@@ -9,6 +9,9 @@ recipients = [
 [edit]
 command = "nvim"
 
+[diff]
+command = "delta"
+
 {{- $packageGroupChoices := list "ai" "k8s" "iac" "cloud" "dev" "containers" }}
 {{- $packageGroups := promptMultichoice "What package groups do you want to install" $packageGroupChoices }}
 [data]
