@@ -43,8 +43,15 @@ zinit ice wait lucid; zinit snippet OMZP::k9s
 zinit ice wait lucid; zinit snippet OMZP::opentofu
 zinit ice wait lucid; zinit snippet OMZP::command-not-found
 
-# Load completions
-autoload -Uz compinit && compinit
+# Load completions: full rescan once a day or when a plugin was added/removed, otherwise load the cached dump
+autoload -Uz compinit
+ZCOMPDUMP=~/.zcompdump
+ZINIT_PLUGINS_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/zinit/plugins"
+if [[ -n ${ZCOMPDUMP}(#qN.mh+24) || $ZINIT_PLUGINS_DIR -nt $ZCOMPDUMP ]]; then
+  compinit
+else
+  compinit -C
+fi
 
 zinit cdreplay -q
 
@@ -86,9 +93,14 @@ alias v="nvim"
 alias fabric='fabric-ai'
 alias lg="lazygit"
 
-# Set the prompt
+# Set the prompt (cache the generated init script instead of re-spawning oh-my-posh every launch)
 if [[ "$TERM_PROGRAM" != "Apple_Terminal" ]]; then
-  eval "$(oh-my-posh init zsh --config ~/.config/ohmyposh.toml)"
+  POSH_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/ohmyposh.zsh"
+  if [[ ! -f $POSH_CACHE || ~/.config/ohmyposh.toml -nt $POSH_CACHE ]]; then
+    mkdir -p "${POSH_CACHE:h}"
+    oh-my-posh init zsh --config ~/.config/ohmyposh.toml > "$POSH_CACHE"
+  fi
+  source "$POSH_CACHE"
 fi
 
 # Load custom scripts and configurations
@@ -105,6 +117,7 @@ if [[ -f ~/scripts/vo_functions.sh ]]; then
 fi
 
 # environment variables
+export PATH="$HOME/.local/bin:$PATH"
 export XDG_CONFIG_HOME="$HOME/.config"
 export TERM=xterm-256color
 export K9S_CONFIG_DIR=~/.config/k9s
