@@ -1,14 +1,12 @@
 [packages.common]
 brew = [
   "age",
-  "autoenv",
   "autossh",
   "bat",
   "bitwarden-cli",
   "btop",
   "chezmoi",
   "commitizen",
-  "direnv",
   "eza",
   "fd",
   "fzf",

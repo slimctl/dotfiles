@@ -31,18 +31,17 @@ zstyle ':omz:plugins:eza' 'icons' yes
 zstyle ':omz:plugins:eza' 'show-group' no
 zstyle ':omz:plugins:eza' 'git-status' yes
 
-# Add in snippets
-zinit snippet OMZP::git
-zinit snippet OMZP::autoenv
-zinit snippet OMZP::eza
-zinit snippet OMZP::ansible
-zinit snippet OMZP::kubectl
-zinit snippet OMZP::mise
-zinit snippet OMZP::fzf
-zinit snippet OMZP::zoxide
-zinit snippet OMZP::k9s
-zinit snippet OMZP::opentofu
-zinit snippet OMZP::command-not-found
+# Add in snippets (deferred via turbo mode so they load after the first prompt)
+zinit ice wait lucid; zinit snippet OMZP::git
+zinit ice wait lucid; zinit snippet OMZP::eza
+zinit ice wait lucid; zinit snippet OMZP::ansible
+zinit ice wait lucid; zinit snippet OMZP::kubectl
+zinit ice wait lucid; zinit snippet OMZP::mise
+zinit ice wait lucid; zinit snippet OMZP::fzf
+zinit ice wait lucid; zinit snippet OMZP::zoxide
+zinit ice wait lucid; zinit snippet OMZP::k9s
+zinit ice wait lucid; zinit snippet OMZP::opentofu
+zinit ice wait lucid; zinit snippet OMZP::command-not-found
 
 # Load completions
 autoload -Uz compinit && compinit
@@ -118,5 +117,3 @@ if [[ $(uname) == "Linux" && -f "$HOME/.ssh/poa" && -f "$HOME/.ssh/github" ]]; t
   keychain -q "$HOME/.ssh/poa" "$HOME/.ssh/github"
   source "$HOME/.keychain/$HOSTNAME-sh"
 fi
-
-eval "$(direnv hook zsh)"
