@@ -1,0 +1,15 @@
+#!/bin/bash
+set -euo pipefail
+
+echo "🍺 Updating Homebrew packages..."
+brew update
+brew upgrade
+brew cleanup
+
+echo "🔌 Updating zinit plugins..."
+zsh -i -c 'zinit update --all; zinit cclear; rm -f ~/.zcompdump*; compinit'
+
+echo "🛠️  Updating mise-managed tools..."
+mise upgrade
+
+echo "✅ System update complete."
