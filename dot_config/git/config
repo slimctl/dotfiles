@@ -1,6 +1,7 @@
 [core]
   editor = nvim
   autocrlf = input
+  excludesfile = ~/.config/git/.gitignore
 
 [push]
   autoSetupRemote = true
