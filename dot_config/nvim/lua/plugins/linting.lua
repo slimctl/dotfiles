@@ -9,7 +9,7 @@ return {
       },
       linters = {
         ["markdownlint-cli2"] = {
-          prepend_args = { "--config", vim.fn.stdpath("config") .. "/markdownlint-cli2.jsonc" },
+          prepend_args = { "--config", vim.fn.stdpath("config") .. "/tools/markdownlint-cli2.jsonc" },
         },
       },
     },
