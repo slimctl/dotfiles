@@ -26,6 +26,22 @@ return {
     },
   },
   {
+    "stevearc/conform.nvim",
+    opts = {
+      formatters_by_ft = {
+        yaml = { "yamlfmt" },
+      },
+      formatters = {
+        yamlfmt = {
+          prepend_args = { "-conf", vim.fn.stdpath("config") .. "/yamlfmt.yaml" },
+        },
+        ["markdownlint-cli2"] = {
+          prepend_args = { "--config", vim.fn.stdpath("config") .. "/markdownlint-cli2.jsonc" },
+        },
+      },
+    },
+  },
+  {
     "LazyVim",
     opts = function()
       vim.filetype.add({
