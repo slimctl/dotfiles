@@ -33,10 +33,13 @@ return {
       },
       formatters = {
         yamlfmt = {
-          prepend_args = { "-conf", vim.fn.stdpath("config") .. "/yamlfmt.yaml" },
+          prepend_args = { "-conf", vim.fn.stdpath("config") .. "/tools/yamlfmt.yaml" },
         },
         ["markdownlint-cli2"] = {
-          prepend_args = { "--config", vim.fn.stdpath("config") .. "/markdownlint-cli2.jsonc" },
+          prepend_args = { "--config", vim.fn.stdpath("config") .. "/tools/markdownlint-cli2.jsonc" },
+        },
+        prettier = {
+          prepend_args = { "--config", vim.fn.stdpath("config") .. "/tools/prettierrc.json" },
         },
       },
     },
