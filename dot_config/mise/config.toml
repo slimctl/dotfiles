@@ -4,3 +4,6 @@ lua = "5.5.0"
 node = "lts"
 python = "3"
 rust = "latest"
+
+[settings.sops]
+age_key_file = "~/.config/sops/age/keys.txt"
