@@ -104,14 +104,9 @@ alias v="nvim"
 alias fabric='fabric-ai'
 alias lg="lazygit"
 
-# Set the prompt (cache the generated init script instead of re-spawning oh-my-posh every launch)
+# Set the prompt (oh-my-posh caches its own init script, so this stays fast)
 if [[ "$TERM_PROGRAM" != "Apple_Terminal" ]]; then
-  POSH_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/ohmyposh.zsh"
-  if [[ ! -f $POSH_CACHE || ~/.config/ohmyposh.toml -nt $POSH_CACHE ]]; then
-    mkdir -p "${POSH_CACHE:h}"
-    oh-my-posh init zsh --config ~/.config/ohmyposh.toml > "$POSH_CACHE"
-  fi
-  source "$POSH_CACHE"
+  eval "$(oh-my-posh init zsh --config ~/.config/ohmyposh.toml)"
 fi
 
 # Load custom scripts and configurations
@@ -135,9 +130,12 @@ export K9S_CONFIG_DIR=~/.config/k9s
 export EDITOR=nvim
 export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
 
-if [[ $(uname) == "Linux" && -f "$HOME/.ssh/poa" && -f "$HOME/.ssh/github" ]]; then
-  HOSTNAME=$(hostname)
-  export HOSTNAME
-  keychain -q "$HOME/.ssh/poa" "$HOME/.ssh/github"
-  source "$HOME/.keychain/$HOSTNAME-sh"
+# Only run keychain (slow) when the agent has no keys loaded yet
+if [[ $OSTYPE == linux* && -f "$HOME/.ssh/poa" && -f "$HOME/.ssh/github" ]]; then
+  export HOSTNAME=$HOST
+  [[ -f "$HOME/.keychain/$HOST-sh" ]] && source "$HOME/.keychain/$HOST-sh"
+  if ! ssh-add -l >/dev/null 2>&1; then
+    keychain -q "$HOME/.ssh/poa" "$HOME/.ssh/github"
+    source "$HOME/.keychain/$HOST-sh"
+  fi
 fi
