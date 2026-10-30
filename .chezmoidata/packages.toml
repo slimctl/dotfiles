@@ -1,7 +1,14 @@
-[packages.common]
+# Groups are shortcuts. A machine lists groups and/or single packages.
+# Names that aren't a group are installed as a brew formula, unless they
+# appear in some group's `cask` list. Taps are derived from "owner/tap/name".
+
+[packages.groups.ai]
+brew = ["fabric-ai", "opencode"]
+cask = ["claude-code", "codex"]
+
+[packages.groups.base]
 brew = [
   "age",
-  "autossh",
   "bat",
   "bitwarden-cli",
   "btop",
@@ -31,14 +38,19 @@ brew = [
 ]
 cask = ["font-jetbrains-mono-nerd-font"]
 
-[packages.dev]
+[packages.groups.cloud]
+brew = ["oci-cli"]
+
+[packages.groups.containers]
+brew = ["podman", "podman-tui"]
+
+[packages.groups.dev]
 brew = ["uv"]
 
-[packages.ai]
-brew = ["fabric-ai", "opencode"]
-cask = ["claude-code", "codex"]
+[packages.groups.iac]
+brew = ["ansible", "hashicorp/tap/terraform"]
 
-[packages.k8s]
+[packages.groups.k8s]
 brew = [
   "argocd",
   "cilium-cli",
@@ -47,23 +59,13 @@ brew = [
   "kubectx",
   "kubelogin",
   "kubernetes-cli",
-  "kyverno",
 ]
 
-[packages.containers]
-brew = ["lima", "podman", "podman-tui"]
+[packages.groups.linux]
+brew = ["keychain"]
 
-[packages.iac]
-brew = ["ansible", "hashicorp/tap/terraform"]
-tap = ["hashicorp/tap"]
-
-[packages.cloud]
-brew = ["oci-cli"]
-
-[packages.darwin]
-mas = { Bitwarden = 1352778147, Readest = 6738622779, WindowsApp = 1295203466, SteamLink = 1246969117 }
-brew = ["felixkratz/formulae/borders", "mas", "yt-dlp", "ffmpeg"]
-tap = ["felixkratz/formulae", "nikitabobko/tap"]
+[packages.groups.mac]
+brew = ["felixkratz/formulae/borders", "ffmpeg", "mas", "yt-dlp"]
 cask = [
   "betterdisplay",
   "brave-browser",
@@ -89,6 +91,16 @@ cask = [
   "unnaturalscrollwheels",
   "vlc",
 ]
+mas = { Bitwarden = 1352778147, Readest = 6738622779, SteamLink = 1246969117, WindowsApp = 1295203466 }
 
-[packages.linux]
-brew = ["keychain"]
+[packages.groups.vm]
+brew = ["lima"]
+
+[packages.machines]
+lindev = ["base", "k8s", "claude-code", "linux"]
+mac = ["base", "ai", "k8s", "containers", "iac", "mac", "vm"]
+wsl = ["base", "claude-code", "k8s", "iac", "linux", "autossh", "dev"]
+
+[packages.skip]
+lindev = []
+wsl = []

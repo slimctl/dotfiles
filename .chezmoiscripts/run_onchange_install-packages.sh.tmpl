@@ -1,32 +1,49 @@
-{{- $sources := list .packages.common -}}
-{{- if eq .chezmoi.os "darwin" -}}
-    {{- $sources = append $sources .packages.darwin -}}
-{{- else if eq .chezmoi.os "linux" -}}
-    {{- $sources = append $sources .packages.linux -}}
-{{- end -}}
-{{- range .packageGroups -}}
-    {{- $sources = append $sources (index $.packages .) -}}
+{{- $groups := .packages.groups -}}
+{{- if not (hasKey .packages.machines .machine) -}}
+{{-   fail (printf "machine %q is not defined in .chezmoidata/packages.toml" .machine) -}}
 {{- end -}}
 
-{{- $brewPackages := list -}}
-{{- $casks := list -}}
-{{- $taps := list -}}
-{{- $masApps := dict -}}
-{{- range $sources -}}
-    {{- if hasKey . "brew" -}}
-        {{- $brewPackages = concat $brewPackages .brew -}}
-    {{- end -}}
-    {{- if hasKey . "tap" -}}
-        {{- $taps = concat $taps .tap -}}
-    {{- end -}}
-    {{- if hasKey . "cask" -}}
-        {{- $casks = concat $casks .cask -}}
-    {{- end -}}
-    {{- /* Mac App Store, so macOS-only regardless of which OS the cask/brew entries above target */ -}}
-    {{- if and (eq $.chezmoi.os "darwin") (hasKey . "mas") -}}
-        {{- $masApps = merge $masApps .mas -}}
-    {{- end -}}
+{{- /* Machine list from the repo, plus per-host extras from chezmoi.toml */ -}}
+{{- $names := concat (index .packages.machines .machine) (get . "addPackages" | default list) -}}
+{{- $skip := concat (get (get .packages "skip" | default dict) .machine | default list) (get . "skipPackages" | default list) -}}
+
+{{- $allCasks := list -}}
+{{- range $groups -}}
+{{-   $allCasks = concat $allCasks (get . "cask" | default list) -}}
 {{- end -}}
+
+{{- $brew := list -}}
+{{- $cask := list -}}
+{{- $mas := dict -}}
+{{- range $names -}}
+{{-   if hasKey $groups . -}}
+{{-     $g := index $groups . -}}
+{{-     $brew = concat $brew (get $g "brew" | default list) -}}
+{{-     $cask = concat $cask (get $g "cask" | default list) -}}
+{{-     $mas = merge $mas (get $g "mas" | default dict) -}}
+{{-   else if has . $allCasks -}}
+{{-     $cask = append $cask . -}}
+{{-   else -}}
+{{-     $brew = append $brew . -}}
+{{-   end -}}
+{{- end -}}
+
+{{- range $skip -}}
+{{-   $brew = without $brew . -}}
+{{-   $cask = without $cask . -}}
+{{- end -}}
+{{- $brew = $brew | uniq | sortAlpha -}}
+{{- $cask = $cask | uniq | sortAlpha -}}
+
+{{- /* "owner/tap/name" -> tap "owner/tap" */ -}}
+{{- $taps := list -}}
+{{- range concat $brew $cask -}}
+{{-   $parts := splitList "/" . -}}
+{{-   if eq (len $parts) 3 -}}
+{{-     $taps = append $taps (printf "%s/%s" (index $parts 0) (index $parts 1)) -}}
+{{-   end -}}
+{{- end -}}
+{{- $taps = $taps | uniq | sortAlpha -}}
 
 #!/bin/bash
 set -euo pipefail
@@ -46,13 +63,13 @@ cat > "$brewfile" <<'EOF'
 {{ range $taps -}}
 tap {{ . | quote }}, trusted: true
 {{ end -}}
-{{ range $brewPackages -}}
+{{ range $brew -}}
 brew {{ . | quote }}
 {{ end -}}
-{{ range $casks -}}
+{{ range $cask -}}
 cask {{ . | quote }}
 {{ end -}}
-{{ range $name, $id := $masApps -}}
+{{ range $name, $id := $mas -}}
 mas {{ $name | quote }}, id: {{ $id }}
 {{ end -}}
 EOF

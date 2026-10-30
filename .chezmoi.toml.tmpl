@@ -12,7 +12,16 @@ command = "nvim"
 [diff]
 command = "delta"
 
-{{- $packageGroupChoices := list "ai" "k8s" "iac" "cloud" "dev" "containers" }}
-{{- $packageGroups := promptMultichoice "What package groups do you want to install" $packageGroupChoices }}
+{{- /* Guess the machine type; asked once, then remembered. Choices must match [packages.machines]. */}}
+{{- $machine := "lindev" }}
+{{- if eq .chezmoi.os "darwin" }}
+{{-   $machine = "mac" }}
+{{- else if and (eq .chezmoi.os "linux") (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+{{-   $machine = "wsl" }}
+{{- end }}
+{{- $machine = promptChoiceOnce . "machine" "Machine type" (list "lindev" "mac" "wsl") $machine }}
 [data]
-packageGroups = {{ $packageGroups | toToml }}
+machine = {{ $machine | quote }}
+# Per-host tweaks on top of the machine type:
+# addPackages  = []
+# skipPackages = []

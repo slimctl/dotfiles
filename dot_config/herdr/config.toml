@@ -1,12 +1,52 @@
 onboarding = false
 
+[theme]
+name = "catppuccin"
+
 [ui]
 agent_panel_sort = "spaces"
-tab_bar_right = [{ type = "hostname" }, { type = "datetime", format = "%H:%M" }]
+accent = "#cba6f7"
+status_indicators = "symbols"
+show_agent_labels_on_pane_borders = true
+hide_tab_bar_when_single_tab = false
+pane_outer_borders = false
+tab_bar_right = [
+  { type = "command", command = "~/.config/herdr/kube-status.sh", interval_seconds = 5, timeout_seconds = 2 },
+  { type = "hostname" },
+  { type = "datetime", format = "%H:%M" },
+]
 tab_bar_right_separator = " · "
 
-[keys]
-prefix = "ctrl+a"
+[ui.toast]
+delivery = "herdr"
 
 [ui.sound]
 enabled = false
+
+[keys]
+prefix = "ctrl+a"
+last_pane = "prefix+a"
+
+[[keys.command]]
+key = "prefix+alt+g"
+type = "popup"
+command = "lazygit"
+width = "90%"
+height = "90%"
+
+[[keys.command]]
+key = "prefix+y"
+type = "popup"
+command = "yazi"
+width = "90%"
+height = "90%"
+
+[[keys.command]]
+key = "prefix+t"
+type = "popup"
+command = "exec \"${SHELL:-sh}\""
+width = "80%"
+height = "80%"
+
+[experimental]
+pane_history = true
