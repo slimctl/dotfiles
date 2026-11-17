@@ -156,6 +156,13 @@ template = '{{ .FormattedMs }}'
 threshold = 500
 style = 'round'
 
+[[blocks.segments]]
+type = 'text'
+style = 'plain'
+foreground = 'p:red'
+background = 'transparent'
+template = '{{ if gt .Code 0 }} ✘ {{ .Code }}{{ end }}'
+
 [[blocks]]
 type = 'prompt'
 alignment = 'left'
@@ -169,7 +176,7 @@ foreground_templates = [
   '{{if gt .Code 0}}p:red{{end}}',
 ]
 background = 'transparent'
-template = '{{ if gt .Code 0 }}✘ {{ .Code }} {{ end }}❯'
+template = '❯'
 
 [transient_prompt]
 foreground_templates = [
